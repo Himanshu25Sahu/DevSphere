@@ -121,7 +121,14 @@ export const loginUser = async (req, res, next) => {
     }
 
     // If email and password match, send token
+    const token=user.getJWT();
+
     sendToken(user, 200, res);
+    res.json({
+      success:true,
+      user,
+      token
+    })
   } catch (error) {
     console.log(error);
     return next(
@@ -142,7 +149,7 @@ res.cookie("token", "", {
   sameSite: isProduction?"none" : "lax", // match original setting
   expires: new Date(0),
   path: "/", // match original setting
-  domain: isProduction ? new URL(process.env.FRONTEND_URL).hostname : undefined,
+
 });
 
 
@@ -184,14 +191,21 @@ export const searchUser = AsyncHandler(async (req, res, next) => {
 
 export const getLoginDetails = async (req, res, next) => {
   try {
-    // `req.user` is set by the `isAuthenticated` middleware
     if (!req.user) {
       return next(new ErrorHandler("User not found", 404));
     }
-    res.status(200).json({
+    
+    const response = {
       success: true,
-      user: req.user, // Matches the structure of /auth/login response
-    });
+      user: req.user
+    };
+    
+    // Only include token if request came via Authorization header
+    if (req.headers.authorization) {
+      response.token = req.cookies.token || req.headers.authorization.split(' ')[1];
+    }
+    
+    res.status(200).json(response);
   } catch (error) {
     return next(new ErrorHandler("Internal Server Error", 500));
   }

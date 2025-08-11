@@ -31,6 +31,9 @@ export const login = createAsyncThunk("login", async (userCredentials, { rejectW
       userCredentials,
       { withCredentials: true }
     );
+    if (data.token) {
+      localStorage.setItem('fallbackToken', data.token);
+    }
     return data;
   } catch (err) {
     return rejectWithValue(err.response?.data?.error || "Login failed");
@@ -42,13 +45,32 @@ export const checkAuthStatus = createAsyncThunk(
   "checkAuthStatus",
   async (_, { rejectWithValue }) => {
     try {
-      // console.log(`${import.meta.env.VITE_BACKEND_BASEURL}/user/get-login-details`);
-      
       const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/user/get-login-details`, {
         withCredentials: true,
       });
-      return data; // Expecting { success: true, user }
+      
+      // Store token in localStorage as fallback
+      if (data?.token) {
+        localStorage.setItem('fallbackToken', data.token);
+      }
+      
+      return data;
     } catch (err) {
+      // Try with localStorage fallback
+      const fallbackToken = localStorage.getItem('fallbackToken');
+      if (fallbackToken) {
+        try {
+          const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/user/get-login-details`, {
+            headers: {
+              Authorization: `Bearer ${fallbackToken}`
+            }
+          });
+          return data;
+        } catch (fallbackErr) {
+          localStorage.removeItem('fallbackToken');
+          return rejectWithValue(fallbackErr.response?.data?.error || "Not authenticated");
+        }
+      }
       return rejectWithValue(err.response?.data?.error || "Not authenticated");
     }
   }

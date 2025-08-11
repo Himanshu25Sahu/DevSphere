@@ -64,6 +64,9 @@ const LoginPage = () => {
     try {
       const result = await dispatch(login(credentials)).unwrap()
       if (result) {
+              if (result.token) {
+        localStorage.setItem('fallbackToken', result.token);
+      }
         toast.success("Login Successful", {
           style: {
             background: "linear-gradient(135deg, #7c78eb 0%, #605dd3 100%)",

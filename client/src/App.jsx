@@ -30,23 +30,38 @@ const Sidebar = React.lazy(() => import("./components/Navbar/Sidebar.jsx"));
 
 axios.defaults.withCredentials = true;
 
+// Consider adding error handling to the interceptor
+axios.interceptors.request.use((config) => {
+  try {
+    if (document.cookie.indexOf('token') === -1) {
+      const token = localStorage.getItem('fallbackToken');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+  } catch (error) {
+    console.error('Interceptor error:', error);
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
 function Logout() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // 1️⃣ Clear auth state first
-    dispatch(logout());
-
-    // 2️⃣ Trigger backend logout (non-blocking)
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_BASEURL}/user/logout`, {
-        withCredentials: true,
-      })
-      .finally(() => {
-        // 3️⃣ Hard redirect — skips React render cycle that causes 401s
-        window.location.replace("/login");
-      });
-  }, [dispatch]);
+// In your Logout component
+useEffect(() => {
+  dispatch(logout());
+  localStorage.removeItem('fallbackToken'); // Clear fallback token
+  
+  axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/user/logout`, {
+    withCredentials: true,
+  })
+  .finally(() => {
+    window.location.replace("/login");
+  });
+}, [dispatch]);
 
   return null;
 }
