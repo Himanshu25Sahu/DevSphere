@@ -13,7 +13,7 @@ app.set("trust proxy", 1);
 
 // --- CORS ---
 app.use(cors({
-    origin: process.env.FRONTEND_URL, // full URL e.g. "https://myfrontend.com"
+    origin: process.env.FRONTEND_URL, // full URL e.g: "https://myfrontend.com"
     credentials: true
 }));
 
