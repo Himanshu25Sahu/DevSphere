@@ -93,9 +93,9 @@ useEffect(() => {
 
 
 
-  if (!authChecked || loading) {
-    return <Loader />;
-  }
+  // if (!authChecked || loading) {
+  //   return <Loader />;
+  // }
 
   return (
     <Router>

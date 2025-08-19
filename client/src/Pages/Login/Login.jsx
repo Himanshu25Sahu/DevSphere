@@ -136,7 +136,7 @@ const LoginPage = () => {
           </div>
         </div>
 
-        {loading && <Loader />}
+        {/* {loading && <Loader />} */}
 
         <form onSubmit={handleLogin} className="login-form">
           <div className="form-container">
