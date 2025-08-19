@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 
 .homepage {
   position: relative;
@@ -72,7 +71,8 @@
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
     opacity: 0.1;
   }
@@ -294,7 +294,11 @@
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {
@@ -524,7 +528,7 @@
 }
 
 .demo-tab.active::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -697,7 +701,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.5;
   }
   50% {
@@ -791,7 +796,7 @@
   background: #0d1117;
   border-radius: 8px;
   padding: 1rem;
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -839,7 +844,7 @@
   padding: 1rem 0.5rem;
   background: rgba(255, 255, 255, 0.02);
   color: #6e7681;
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   font-size: 0.9rem;
   line-height: 1.5;
   text-align: right;
@@ -850,7 +855,7 @@
 .code-content {
   flex: 1;
   padding: 1rem;
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   font-size: 0.9rem;
   line-height: 1.5;
   color: #e6edf3;
@@ -884,7 +889,7 @@
 
 .output-content {
   padding: 1rem;
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   color: #28ca42;
   font-size: 0.9rem;
 }
@@ -1171,16 +1176,225 @@
   color: #667eea;
 }
 
+/* Server Loading Popup Styles */
+.server-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.server-loading-popup {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 2.5rem 3rem;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: slideInDown 0.6s ease-out;
+  max-width: 400px;
+  width: 90%;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(102, 126, 234, 0.3);
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+.loading-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.loading-content p {
+  color: #b0b0b0;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modern Toast Styles */
+.modern-toast {
+  display: flex;
+  align-items: center;
+  background: #2a2a3b;
+  border: 1px solid #3a3a4b;
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 340px;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(124, 120, 235, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: toastSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modern-toast::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #7c78eb, #605dd3, #7c78eb);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.toast-icon-wrapper {
+  position: relative;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-spinner {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.toast-icon {
+  font-size: 20px;
+  z-index: 1;
+  color: #7c78eb;
+  animation: toastPulse 2s infinite;
+}
+
+.toast-content {
+  flex: 1;
+  text-align: left;
+}
+
+.toast-title {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 3px;
+  letter-spacing: 0.2px;
+}
+
+.toast-subtitle {
+  color: #a0a0a0;
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: 400;
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #7c78eb, #605dd3);
+  border-radius: 0 0 12px 12px;
+  animation: progressBar 6s linear;
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateY(-80px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes toastPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes progressBar {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .features-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
-  
+
   .demo-tabs {
     flex-wrap: wrap;
   }
-  
+
   .demo-tab {
     min-width: 150px;
   }
@@ -1190,70 +1404,106 @@
   .hero-section {
     padding: 1rem;
   }
-  
+
   .hero-actions {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .cta-button {
     width: 100%;
     max-width: 300px;
     justify-content: center;
   }
-  
+
   .features-section,
   .demo-section {
     padding: 4rem 1rem;
   }
-  
+
   .features-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  
+
   .demo-preview {
     padding: 1.5rem;
   }
-  
+
   .demo-chat,
   .demo-community {
     flex-direction: column;
     height: auto;
   }
-  
+
   .chat-sidebar,
   .channel-list {
     width: 100%;
     margin-bottom: 1rem;
   }
-  
+
   .cta-stats {
     gap: 2rem;
   }
-  
+
   .footer-main {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .footer-links {
     grid-template-columns: 1fr;
   }
-  
+
   .footer-bottom {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .benefits-strip {
     gap: 1rem;
   }
-  
+
   .benefit-item {
     flex-direction: column;
     text-align: center;
     padding: 1rem;
+  }
+
+  .server-loading-overlay {
+    padding-top: 15vh;
+  }
+
+  .server-loading-popup {
+    padding: 2rem;
+    margin: 0 1rem;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+  }
+
+  .loading-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .loading-content p {
+    font-size: 0.9rem;
+  }
+
+  .modern-toast {
+    min-width: 300px;
+    max-width: 320px;
+    padding: 14px 18px;
+  }
+
+  .toast-title {
+    font-size: 14px;
+  }
+
+  .toast-subtitle {
+    font-size: 12px;
   }
 }
 
@@ -1261,61 +1511,93 @@
   .hero-badge {
     padding: 0.5rem 1rem;
   }
-  
+
   .badge-text {
     font-size: 0.8rem;
   }
-  
+
   .hero-description {
     font-size: 1.1rem;
   }
-  
+
   .section-header {
     margin-bottom: 3rem;
   }
-  
+
   .feature-card {
     height: 350px;
   }
-  
+
   .card-front,
   .card-back {
     padding: 2rem;
   }
-  
+
   .feature-icon {
     width: 60px;
     height: 60px;
     font-size: 1.5rem;
   }
-  
+
   .demo-container {
     border-radius: 16px;
   }
-  
+
   .window-content {
     padding: 1rem;
   }
-  
+
   .tech-item {
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
   }
-  
+
   .cta-banner {
     padding: 4rem 1rem;
   }
-  
+
   .cta-actions {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .footer {
     padding: 3rem 1rem 2rem;
   }
-  
+
   .social-links {
     justify-content: center;
+  }
+
+  .server-loading-overlay {
+    padding-top: 15vh;
+  }
+
+  .server-loading-popup {
+    padding: 1.5rem;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+  }
+
+  .loading-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .modern-toast {
+    min-width: 260px;
+    max-width: 280px;
+    padding: 12px 16px;
+  }
+
+  .toast-spinner {
+    width: 28px;
+    height: 28px;
+  }
+
+  .toast-icon {
+    font-size: 18px;
   }
 }

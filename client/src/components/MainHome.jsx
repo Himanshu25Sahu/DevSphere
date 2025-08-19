@@ -1,42 +1,50 @@
- 
+"use client"
 
 import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { 
-  FaCode, 
-  FaUsers, 
-  FaShare, 
-  FaTerminal, 
-  FaGithub, 
-  FaLinkedin, 
+import {
+  FaCode,
+  FaUsers,
+  FaShare,
+  FaTerminal,
+  FaGithub,
+  FaLinkedin,
   FaInstagram,
   FaArrowDown,
   FaRocket,
   FaLightbulb,
   FaCog,
-  FaPlay,
-  FaPause
 } from "react-icons/fa"
-import "./MainHome22.css"
+import "./mainhome22.css"
 
 const HomePage = () => {
   const [currentWord, setCurrentWord] = useState(0)
   const [isVisible, setIsVisible] = useState({})
   const [activeDemo, setActiveDemo] = useState("chat")
   const [isScrolling, setIsScrolling] = useState(false)
-  const navigate=useNavigate();
-  
+  const [isServerLoading, setIsServerLoading] = useState(true)
+  const navigate = useNavigate()
+
   const words = ["Innovative", "Efficient", "Cutting-Edge", "Revolutionary"]
   const heroRef = useRef(null)
   const featuresRef = useRef(null)
   const demoRef = useRef(null)
 
-  // Typewriter effect
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWord((prev) => (prev + 1) % words.length)
-    }, 2000)
-    return () => clearInterval(interval)
+    // Simulate server wake-up time (can be adjusted based on actual server response)
+    const serverWakeUpTimer = setTimeout(() => {
+      setIsServerLoading(false)
+    }, 3000) // 3 seconds minimum, but will hide when component fully loads
+
+    // Also hide when component is fully mounted and ready
+    const componentReadyTimer = setTimeout(() => {
+      setIsServerLoading(false)
+    }, 1500) // Minimum time to show the popup
+
+    return () => {
+      clearTimeout(serverWakeUpTimer)
+      clearTimeout(componentReadyTimer)
+    }
   }, [])
 
   // Intersection Observer for animations
@@ -44,17 +52,17 @@ const HomePage = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          setIsVisible(prev => ({
+          setIsVisible((prev) => ({
             ...prev,
-            [entry.target.id]: entry.isIntersecting
+            [entry.target.id]: entry.isIntersecting,
           }))
         })
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     )
 
-    const elements = document.querySelectorAll('[data-animate]')
-    elements.forEach(el => observer.observe(el))
+    const elements = document.querySelectorAll("[data-animate]")
+    elements.forEach((el) => observer.observe(el))
 
     return () => observer.disconnect()
   }, [])
@@ -62,7 +70,7 @@ const HomePage = () => {
   // Smooth scroll handler
   const scrollToSection = (ref) => {
     setIsScrolling(true)
-    ref.current?.scrollIntoView({ behavior: 'smooth' })
+    ref.current?.scrollIntoView({ behavior: "smooth" })
     setTimeout(() => setIsScrolling(false), 1000)
   }
 
@@ -73,7 +81,7 @@ const HomePage = () => {
       description: "Connect instantly with developers worldwide through our lightning-fast messaging system.",
       icon: <FaCode />,
       color: "from-blue-500 to-cyan-500",
-      details: "End-to-end encrypted messaging with file sharing, code snippets, and video calls."
+      details: "End-to-end encrypted messaging with file sharing, code snippets, and video calls.",
     },
     {
       id: "community",
@@ -81,7 +89,7 @@ const HomePage = () => {
       description: "Join vibrant communities of developers sharing knowledge and collaborating on projects.",
       icon: <FaUsers />,
       color: "from-purple-500 to-pink-500",
-      details: "Create channels, share resources, and build lasting connections with like-minded developers."
+      details: "Create channels, share resources, and build lasting connections with like-minded developers.",
     },
     {
       id: "sharing",
@@ -89,7 +97,7 @@ const HomePage = () => {
       description: "Share your projects, insights, and achievements with the developer community.",
       icon: <FaShare />,
       color: "from-green-500 to-teal-500",
-      details: "Rich media posts with syntax highlighting, interactive demos, and community engagement."
+      details: "Rich media posts with syntax highlighting, interactive demos, and community engagement.",
     },
     {
       id: "compiler",
@@ -97,24 +105,37 @@ const HomePage = () => {
       description: "Code, compile, and run your programs directly in the browser with our powerful IDE.",
       icon: <FaTerminal />,
       color: "from-orange-500 to-red-500",
-      details: "Support for 20+ languages with real-time collaboration and debugging tools."
-    }
+      details: "Support for 20+ languages with real-time collaboration and debugging tools.",
+    },
   ]
 
-  const techStack = [
-    "Node.js", "Express", "MongoDB", "Socket.io", "Postman", 
-    "JWT", "ReactJS", "Redux"
-  ]
+  const techStack = ["Node.js", "Express", "MongoDB", "Socket.io", "Postman", "JWT", "ReactJS", "Redux"]
 
   const benefits = [
     { icon: <FaRocket />, text: "Lightning Fast" },
     { icon: <FaLightbulb />, text: "Open Source" },
     { icon: <FaUsers />, text: "Collaborative" },
-    { icon: <FaCog />, text: "Real-Time" }
+    { icon: <FaCog />, text: "Real-Time" },
   ]
 
   return (
     <div className="homepage">
+      {isServerLoading && (
+        <div className="server-loading-overlay">
+          <div className="modern-toast">
+            <div className="toast-icon-wrapper">
+              <div className="toast-spinner"></div>
+              <span className="toast-icon">🚀</span>
+            </div>
+            <div className="toast-content">
+              <div className="toast-title">Waking up the server...</div>
+              <div className="toast-subtitle">This may take up to 40 seconds. Thanks for your patience!</div>
+            </div>
+            <div className="toast-progress"></div>
+          </div>
+        </div>
+      )}
+
       {/* Animated Background */}
       <div className="animated-bg">
         <div className="particle particle-1"></div>
@@ -130,7 +151,7 @@ const HomePage = () => {
           <div className="hero-badge">
             <span className="badge-text">🚀 Welcome to the Future of Development</span>
           </div>
-          
+
           <h1 className="hero-title">
             <span className="title-main">DevSphere</span>
             <span className="title-subtitle">
@@ -140,21 +161,19 @@ const HomePage = () => {
               </span>
             </span>
           </h1>
-          
+
           <p className="hero-description">
-            Join developers in the most advanced collaborative platform. 
-            Code together, learn together, grow together.
+            Join developers in the most advanced collaborative platform. Code together, learn together, grow together.
           </p>
-          
+
           <div className="hero-actions">
-            <button className="cta-button primary"   onClick={()=>navigate('/login')} >
+            <button className="cta-button primary" onClick={() => navigate("/login")}>
               <span>Explore the Platform</span>
               <div className="button-glow"></div>
             </button>
-
           </div>
         </div>
-        
+
         <div className="scroll-indicator" onClick={() => scrollToSection(featuresRef)}>
           <div className="scroll-arrow">
             <FaArrowDown />
@@ -166,26 +185,24 @@ const HomePage = () => {
       {/* Interactive Feature Showcase */}
       <section ref={featuresRef} className="features-section" id="features" data-animate>
         <div className="section-header">
-          <h2 className={`section-title ${isVisible.features ? 'animate-in' : ''}`}>
+          <h2 className={`section-title ${isVisible.features ? "animate-in" : ""}`}>
             Powerful Features for Modern Developers
           </h2>
-          <p className={`section-subtitle ${isVisible.features ? 'animate-in delay-1' : ''}`}>
+          <p className={`section-subtitle ${isVisible.features ? "animate-in delay-1" : ""}`}>
             Everything you need to collaborate, create, and innovate
           </p>
         </div>
-        
+
         <div className="features-grid">
           {features.map((feature, index) => (
             <div
               key={feature.id}
-              className={`feature-card ${isVisible.features ? 'animate-in' : ''}`}
+              className={`feature-card ${isVisible.features ? "animate-in" : ""}`}
               style={{ animationDelay: `${index * 0.2}s` }}
             >
               <div className="card-inner">
                 <div className="card-front">
-                  <div className={`feature-icon bg-gradient-to-r ${feature.color}`}>
-                    {feature.icon}
-                  </div>
+                  <div className={`feature-icon bg-gradient-to-r ${feature.color}`}>{feature.icon}</div>
                   <h3 className="feature-title">{feature.title}</h3>
                   <p className="feature-description">{feature.description}</p>
                   <div className="card-hover-indicator">
@@ -193,12 +210,10 @@ const HomePage = () => {
                   </div>
                 </div>
                 <div className="card-back">
-                  <div className={`feature-icon bg-gradient-to-r ${feature.color}`}>
-                    {feature.icon}
-                  </div>
+                  <div className={`feature-icon bg-gradient-to-r ${feature.color}`}>{feature.icon}</div>
                   <h3 className="feature-title">{feature.title}</h3>
                   <p className="feature-details">{feature.details}</p>
-                  <button className="feature-cta"  onClick={()=>navigate('/login')} >
+                  <button className="feature-cta" onClick={() => navigate("/login")}>
                     Try Now
                     <FaArrowDown className="cta-arrow" />
                   </button>
@@ -212,20 +227,18 @@ const HomePage = () => {
       {/* Live Demo Section */}
       <section ref={demoRef} className="demo-section" id="demo" data-animate>
         <div className="section-header">
-          <h2 className={`section-title ${isVisible.demo ? 'animate-in' : ''}`}>
-            See DevSphere in Action
-          </h2>
-          <p className={`section-subtitle ${isVisible.demo ? 'animate-in delay-1' : ''}`}>
+          <h2 className={`section-title ${isVisible.demo ? "animate-in" : ""}`}>See DevSphere in Action</h2>
+          <p className={`section-subtitle ${isVisible.demo ? "animate-in delay-1" : ""}`}>
             Interactive previews of our core features
           </p>
         </div>
-        
+
         <div className="demo-container">
           <div className="demo-tabs">
             {features.map((feature) => (
               <button
                 key={feature.id}
-                className={`demo-tab ${activeDemo === feature.id ? 'active' : ''}`}
+                className={`demo-tab ${activeDemo === feature.id ? "active" : ""}`}
                 onClick={() => setActiveDemo(feature.id)}
               >
                 <span className="tab-icon">{feature.icon}</span>
@@ -233,7 +246,7 @@ const HomePage = () => {
               </button>
             ))}
           </div>
-          
+
           <div className="demo-preview">
             <div className="demo-window">
               <div className="window-header">
@@ -242,7 +255,7 @@ const HomePage = () => {
                   <span className="control minimize"></span>
                   <span className="control maximize"></span>
                 </div>
-                <span className="window-title">DevSphere - {features.find(f => f.id === activeDemo)?.title}</span>
+                <span className="window-title">DevSphere - {features.find((f) => f.id === activeDemo)?.title}</span>
               </div>
               <div className="window-content">
                 {activeDemo === "chat" && (
@@ -272,7 +285,7 @@ const HomePage = () => {
                     </div>
                   </div>
                 )}
-                
+
                 {activeDemo === "community" && (
                   <div className="demo-community">
                     <div className="channel-list">
@@ -289,13 +302,15 @@ const HomePage = () => {
                     </div>
                   </div>
                 )}
-                
+
                 {activeDemo === "sharing" && (
                   <div className="demo-sharing">
                     <div className="community-feed">
                       <div className="post">
                         <div className="post-author">@coder_jane</div>
-                        <div className="post-content">Just shipped a new feature for our team project! Check out this cool UI component! 🎉</div>
+                        <div className="post-content">
+                          Just shipped a new feature for our team project! Check out this cool UI component! 🎉
+                        </div>
                         <div className="post-reactions">❤️ 15 💬 8</div>
                       </div>
                     </div>
@@ -308,11 +323,18 @@ const HomePage = () => {
                       <div className="tab">package.json</div>
                     </div>
                     <div className="editor-content">
-                      <div className="line-numbers">1<br/>2<br/>3<br/>4</div>
+                      <div className="line-numbers">
+                        1<br />2<br />3<br />4
+                      </div>
                       <div className="code-content">
-                        <span className="keyword">function</span> <span className="function">fibonacci</span>(<span className="param">n</span>) {`{`}<br/>
-                        &nbsp;&nbsp;<span className="keyword">return</span> n &lt; 2 ? n : fibonacci(n-1) + fibonacci(n-2);<br/>
-                        {`}`}<br/>
+                        <span className="keyword">function</span> <span className="function">fibonacci</span>(
+                        <span className="param">n</span>) {`{`}
+                        <br />
+                        &nbsp;&nbsp;<span className="keyword">return</span> n &lt; 2 ? n : fibonacci(n-1) +
+                        fibonacci(n-2);
+                        <br />
+                        {`}`}
+                        <br />
                         <span className="function">console.log</span>(fibonacci(10));
                       </div>
                     </div>
@@ -356,15 +378,18 @@ const HomePage = () => {
       <section className="cta-banner">
         <div className="cta-content">
           <h2 className="cta-title">Ready to Transform Your Development Experience?</h2>
-          <p className="cta-description">
-            Join developers building the future with DevSphere
-          </p>
+          <p className="cta-description">Join developers building the future with DevSphere</p>
           <div className="cta-actions">
-            <button className="cta-button primary large"  onClick={()=>navigate('/login')} >
+            <button className="cta-button primary large" onClick={() => navigate("/login")}>
               <span>Get Started Free</span>
               <div className="button-glow"></div>
             </button>
-            <a className="cta-button secondary large" href="https://github.com/Himanshu25Sahu/DevSphere" target="_blank" >
+            <a
+              className="cta-button secondary large"
+              href="https://github.com/Himanshu25Sahu/DevSphere"
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaGithub />
               <span>View on GitHub</span>
             </a>
@@ -394,7 +419,7 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="footer-bottom">
             <p>&copy; 2025 DevSphere. All rights reserved.</p>
           </div>
