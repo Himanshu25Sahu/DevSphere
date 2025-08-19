@@ -25,7 +25,7 @@
 }
 
 body {
-  background:#0a0a0f;
+  background: #0a0a0f;
   color: var(--text-color);
   /* line-height: 1.6; */
   overflow-x: hidden;
@@ -253,6 +253,34 @@ html {
   }
 }
 
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes progressShine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 /* Focus styles for accessibility */
 button:focus-visible,
 input:focus-visible,
@@ -333,5 +361,173 @@ a:focus-visible {
 
   .toast-container {
     display: none;
+  }
+}
+
+/* Server loading popup styles */
+.server-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10vh;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.server-loading-toast {
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.8) 100%);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(124, 120, 235, 0.3);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(124, 120, 235, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  max-width: 480px;
+  width: 90%;
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.server-loading-toast::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+  animation: shimmer 2s infinite;
+}
+
+.server-loading-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.server-loading-spinner {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.spinner-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(124, 120, 235, 0.2);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+.spinner-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.server-loading-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--text-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.server-loading-content p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.server-loading-progress {
+  width: 100%;
+  height: 4px;
+  background: rgba(124, 120, 235, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: progressShine 1.5s ease-in-out infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .server-loading-overlay {
+    padding-top: 20vh;
+  }
+
+  .server-loading-toast {
+    padding: 24px;
+    margin: 0 16px;
+  }
+
+  .server-loading-header {
+    gap: 16px;
+  }
+
+  .server-loading-spinner {
+    width: 48px;
+    height: 48px;
+  }
+
+  .spinner-icon {
+    font-size: 20px;
+  }
+
+  .server-loading-content h3 {
+    font-size: 18px;
+  }
+
+  .server-loading-content p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .server-loading-toast {
+    padding: 20px;
+  }
+
+  .server-loading-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
   }
 }
