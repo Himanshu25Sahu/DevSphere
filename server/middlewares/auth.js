@@ -13,7 +13,10 @@ export const isAuthenticated = async (req, res, next) => {
     const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
     // console.log("AUTH .JS Token:", token);
 
-    if (!token) {
+    if (!token && req.headers.authorization?.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+        if (!token) {
       return next(new ErrorHandler("You need to Login to Access this Resource", 401));
     }
 

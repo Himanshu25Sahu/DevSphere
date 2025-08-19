@@ -53,8 +53,8 @@ const Chat = () => {
       setReceiveMessage(data);
     });
 
-    console.log('LATEST UPDATE 2.13 - CHAT.JSX');
-    console.log(socket.current);
+    // console.log('LATEST UPDATE 2.13 - CHAT.JSX');
+    // console.log(socket.current);
     
     
 

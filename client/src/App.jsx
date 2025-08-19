@@ -83,7 +83,6 @@ useEffect(() => {
   }
 
   if (!isAuthorized) {
-    console.log("Running checkAuthStatus");
     dispatch(checkAuthStatus())
       .unwrap()
       .finally(() => setAuthChecked(true));

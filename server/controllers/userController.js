@@ -120,17 +120,31 @@ export const loginUser = async (req, res, next) => {
       return next(new ErrorHandler("Invalid Email or password", 401));
     }
 
-    // If email and password match, send token
-    const token=user.getJWT();
+    // Get the token first
+    const token = user.getJWT();
 
-    sendToken(user, 200, res);
-    res.json({
-      success:true,
-      user,
-      token
-    })
+    // Set cookie AND include token in response
+    const isProduction = process.env.NODE_ENV === "production";
+    const cookieOptions = {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2 days
+      path: "/",
+
+    };
+
+    // Send single response with both cookie and JSON body
+    res
+      .status(200)
+      .cookie("token", token, cookieOptions)
+      .json({
+        success: true,
+        user,
+        token // Include token in response body
+      });
+
   } catch (error) {
-    console.log(error);
     return next(
       new ErrorHandler(
         error.message || "Internal Server Error",
