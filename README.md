@@ -1,8 +1,14 @@
 # 🌟 Welcome to **Devsphere** – Built by Developers, for Developers! 🌟  
 
 We’re thrilled to introduce **Devsphere**, a platform crafted with passion to empower and connect developers like never before! 🚀  
+---
+
+## 🚀 **Explore Devsphere**  
+👉 Check out our live website: [Devsphere](https://dev-sphere-vrvj.onrender.com/)
+
 
 ---
+
 
 ## 💡 **Why Devsphere?**  
 Devsphere is more than an app; it’s your one-stop destination to connect, create, and grow as a developer. Here’s what makes it special:  
@@ -24,12 +30,7 @@ Devsphere is built with care by two passionate developers:
 - 💡 **Himanshu Sahu**  
 - 💡 **Mushraf JM**  
 
----
 
-## 🚀 **Explore Devsphere**  
-👉 Check out our live website: [Devsphere](https://devsphereclient.onrender.com/)  
-
----
 
 ## 💬 **We’d Love to Hear From You!**  
 Your feedback, ideas, or even a simple “hi” mean the world to us. Let’s make Devsphere even better – together! 🌟  
